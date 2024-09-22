@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Dicoding Event</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_upcoming">Upcoming</string>
+    <string name="nav_finished">Finished</string>
+</resources>
