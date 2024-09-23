@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -38,20 +39,11 @@ class FinishedFragment : Fragment() {
         finishedViewModel.isLoading.observe(viewLifecycleOwner) {
             showLoading(it)
         }
-        // Set up search functionality
-        binding.searchViewFinished.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
+        finishedViewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
             }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                val filteredFinished = finishedViewModel.listEvent.value?.filter {
-                    it.name.contains(newText ?: "", ignoreCase = true)
-                }
-                adapterFinished.submitList(filteredFinished)
-                return true
-            }
-        })
+        }
 
         return root
     }

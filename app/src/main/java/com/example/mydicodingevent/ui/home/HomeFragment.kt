@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
@@ -12,12 +13,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mydicodingevent.databinding.FragmentHomeBinding
 import com.example.mydicodingevent.ui.EventAdapter
+import com.example.mydicodingevent.ui.HomeViewModel
 import com.example.mydicodingevent.ui.finished.FinishedViewModel
 import com.example.mydicodingevent.ui.upcoming.UpcomingViewModel
 
 class HomeFragment : Fragment() {
     private val upcomingViewModel by viewModels<UpcomingViewModel>()
     private val finishedViewModel by viewModels<FinishedViewModel>()
+    private val homeViewModel by viewModels<HomeViewModel>()
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -57,31 +60,15 @@ class HomeFragment : Fragment() {
         finishedViewModel.listEvent.observe(viewLifecycleOwner) { events ->
             adapterFinished.submitList(events)
         }
-        upcomingViewModel.isLoading.observe(viewLifecycleOwner) {
+
+        homeViewModel.isLoading.observe(viewLifecycleOwner) {
             showLoading(it)
         }
-        finishedViewModel.isLoading.observe(viewLifecycleOwner) {
-            showLoading(it)
+        homeViewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            }
         }
-
-        // Set up search functionality
-        binding.searchViewHome.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                val filteredUpcoming = upcomingViewModel.listEvent.value?.filter {
-                    it.name.contains(newText ?: "", ignoreCase = true)
-                }
-                val filteredFinished = finishedViewModel.listEvent.value?.filter {
-                    it.name.contains(newText ?: "", ignoreCase = true)
-                }
-                adapterUpcoming.submitList(filteredUpcoming)
-                adapterFinished.submitList(filteredFinished)
-                return true
-            }
-        })
 
         return root
     }

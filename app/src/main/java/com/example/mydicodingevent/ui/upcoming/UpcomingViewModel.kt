@@ -19,6 +19,9 @@ class UpcomingViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?> = _error
+
     init {
         fetchEventsUpcoming()
     }
@@ -31,15 +34,18 @@ class UpcomingViewModel : ViewModel() {
                 _isLoading.value = false
                 if (response.isSuccessful) {
                     _listEvent.value = response.body()?.listEvents
-                    Log.d("MainViewModel", "Data received: ${response.body()?.listEvents}")
+                    _error.value = null
+                    Log.d("UpcomingViewModel", "Data received: ${response.body()?.listEvents}")
                 } else {
-                    Log.e("MainViewModel", "onFailure: ${response.message()}")
+                    _error.value = "Failed to load upcoming events"
+                    Log.e("UpcomingViewModel", "onFailure: ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
                 _isLoading.value = false
-                Log.e("MainViewModel", "onFailure: ${t.message.toString()}")
+                _error.value = "Network error"
+                Log.e("UpcomingViewModel", "onFailure: ${t.message.toString()}")
             }
         })
     }
