@@ -92,7 +92,6 @@ class EventAdapter(private val type: Type) : ListAdapter<ListEventsItem, Recycle
             }
         }
     }
-
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListEventsItem>() {
             override fun areItemsTheSame(oldItem: ListEventsItem, newItem: ListEventsItem): Boolean {

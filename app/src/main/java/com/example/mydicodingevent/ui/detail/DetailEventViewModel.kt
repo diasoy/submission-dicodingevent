@@ -1,18 +1,30 @@
 package com.example.mydicodingevent.ui.detail
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mydicodingevent.data.response.Event
 import com.example.mydicodingevent.data.retrofit.ApiService
+import com.example.mydicodingevent.database.FavoriteEvent
+import com.example.mydicodingevent.repository.FavoriteEventRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class DetailEventViewModel : ViewModel() {
+class DetailEventViewModel(application: Application) : ViewModel() {
+    private val mNoteRepository: FavoriteEventRepository = FavoriteEventRepository(application)
+    fun insert(favoriteEvent: FavoriteEvent) {
+        mNoteRepository.insert(favoriteEvent)
+    }
+    fun delete(favoriteEvent: FavoriteEvent) {
+        mNoteRepository.delete(favoriteEvent)
+    }
+    fun getFavoriteEventById(id: String): LiveData<FavoriteEvent> = mNoteRepository.getFavoriteEventById(id)
+
     private val _eventDetail = MutableLiveData<Event>()
     val eventDetail: LiveData<Event> get() = _eventDetail
 
@@ -49,4 +61,5 @@ class DetailEventViewModel : ViewModel() {
             }
         }
     }
+
 }
