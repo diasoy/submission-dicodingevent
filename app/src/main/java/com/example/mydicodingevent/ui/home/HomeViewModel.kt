@@ -1,4 +1,4 @@
-package com.example.mydicodingevent.ui
+package com.example.mydicodingevent.ui.home
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -13,8 +13,11 @@ import retrofit2.Response
 
 class HomeViewModel : ViewModel() {
 
-    private val _listEvent = MutableLiveData<List<ListEventsItem>>()
-    val listEvent: LiveData<List<ListEventsItem>> = _listEvent
+    private val _finishedEvents = MutableLiveData<List<ListEventsItem>>()
+    val finishedEvents: LiveData<List<ListEventsItem>> = _finishedEvents
+
+    private val _upcomingEvents = MutableLiveData<List<ListEventsItem>>()
+    val upcomingEvents: LiveData<List<ListEventsItem>> = _upcomingEvents
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -34,7 +37,7 @@ class HomeViewModel : ViewModel() {
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
-                    _listEvent.value = response.body()?.listEvents
+                    _finishedEvents.value = response.body()?.listEvents
                     _error.value = null
                     Log.d("HomeViewModel", "Data received: ${response.body()?.listEvents}")
                 } else {
@@ -58,7 +61,7 @@ class HomeViewModel : ViewModel() {
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
-                    _listEvent.value = response.body()?.listEvents
+                    _upcomingEvents.value = response.body()?.listEvents
                     _error.value = null
                     Log.d("HomeViewModel", "Data received: ${response.body()?.listEvents}")
                 } else {

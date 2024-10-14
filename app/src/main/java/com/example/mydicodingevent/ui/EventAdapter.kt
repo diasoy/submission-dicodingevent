@@ -49,8 +49,8 @@ class EventAdapter(private val type: Type) : ListAdapter<ListEventsItem, Recycle
         fun bind(event: ListEventsItem) {
             Glide.with(itemView.context)
                 .load(event.imageLogo)
-                .into(binding.imgEvent)
-            binding.titleEvent.text = event.name
+                .into(binding.imgEventUpcoming)
+            binding.titleEventUpcoming.text = event.name
             binding.root.setOnClickListener {
                 val context = binding.root.context
                 val intent = Intent(context, DetailEventActivity::class.java).apply {
@@ -65,8 +65,8 @@ class EventAdapter(private val type: Type) : ListAdapter<ListEventsItem, Recycle
         fun bind(event: ListEventsItem) {
             Glide.with(itemView.context)
                 .load(event.imageLogo)
-                .into(binding.imgEvent)
-            binding.titleEvent.text = event.name
+                .into(binding.imgEventFinished)
+            binding.titleEventFinished.text = event.name
             binding.root.setOnClickListener {
                 val context = binding.root.context
                 val intent = Intent(context, DetailEventActivity::class.java).apply {

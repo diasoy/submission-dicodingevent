@@ -30,4 +30,5 @@ class ViewModelFactory private constructor(private val mApplication: Application
         }
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
+
 }

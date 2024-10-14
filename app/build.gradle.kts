@@ -58,6 +58,11 @@ dependencies {
     implementation("androidx.room:room-runtime:2.5.2") // Replace with the correct version
     implementation("androidx.room:room-ktx:2.5.2") // Replace with the correct version
     ksp("androidx.room:room-compiler:2.5.2")
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
